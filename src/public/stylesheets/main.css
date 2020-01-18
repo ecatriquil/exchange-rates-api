@@ -1,0 +1,11 @@
+.oculto{
+    display: none;
+}
+
+.visible{
+    display: block;
+}
+
+form{
+    border: 1px solid red;
+}
