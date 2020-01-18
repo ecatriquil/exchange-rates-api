@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exchange Rate App</title>
+    <link rel="stylesheet" href="public/stylesheets/main.css">
+</head>
+<body>
+    
+    <form action="" id="exchange-reference">
+        <select name="" id="base">
+        </select>
+        <div>
+            <input type="radio" name="options" id="latest" value="latest" checked>
+            <label for="latest">Latest exchange reference</label>
+        </div>
+        <div>
+            <input type="radio" name="options" id="date" value="date"> 
+            <label for="date">Rates for specific day</label>
+        </div>
+        <div class="oculto" id="calendario">
+            <label for="start">Start date:</label>
+            <input type="date" id="start" name="trip-start" value="" min="1999-01-04" max="">
+        </div>
+
+        <button id="submit">Get Rates</button>
+    </form>
+
+    <h2></h2>
+    <ul></ul>
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
