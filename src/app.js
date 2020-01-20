@@ -40,13 +40,24 @@ function ocultarCalendario() {
     $calendario.classList.replace('visible', 'oculto');
 }
 
+function mostrarTabla() {
+    const $tablaResultados = document.querySelector('#tabla-resultados');
+    $tablaResultados.classList.replace('oculto', 'visible');
+}
+
 function traerExchangeRates(date, base) {
     fetch(`https://api.exchangeratesapi.io/${date}?base=${base}`)
         .then(respuesta => respuesta.json())
         .then(respuesta => {
-            $('h2').text(`Cambios del dia ${respuesta.date} en base ${respuesta.base}`);
+            mostrarTabla();
+            $('h2').text(`Exchange rate from ${respuesta.date} in ${respuesta.base}`);
             Object.keys(respuesta.rates).forEach(moneda => {
-                $('ul').append($(`<li class=base>${moneda}: ${respuesta.rates[moneda]}</li>`))
+                $('tbody').append(`
+                    <tr class=base>
+                        <td>${moneda}</td>
+                        <td>${respuesta.rates[moneda]}</td>
+                    </tr>
+                `);    
             });
         })
         .catch(error => console.error('FALLO', error));
