@@ -1,15 +1,15 @@
 /// <reference types="jquery" />
 
-document.querySelector('#latest').onclick = (e) => {
+$('#latest').click((e) => {
     ocultarCalendario();
-}
+});
 
-document.querySelector('#date').onclick = (e) => {
+$('#date').click((e) => {
     mostrarCalendario();
     actualizarCalendario();
-}
+});
 
-document.querySelector('#submit').onclick = ((e) => {
+$('#submit').click((e) => {
     e.preventDefault();
     const { date, base } = definirBaseDate();
     borrarResultadosAnteriores();
@@ -17,32 +17,33 @@ document.querySelector('#submit').onclick = ((e) => {
 });
 
 function definirBaseDate() {
-    const $base = document.querySelector('#base');
-    const base = $base.value;
+    const base = $('#base').val();
     let date;
-    if (document.querySelector('#exchange-reference').options.value === 'latest') {
-        date = document.querySelector('#exchange-reference').options.value
+
+    if ($("input[type=radio][name=options]:checked" ).val() === 'latest') {
+        date = $( "input[type=radio][name=options]:checked" ).val();
     }
-    if (document.querySelector('#exchange-reference').options.value === 'date') {
-        date = document.querySelector('#start').value;
+
+    if ($("input[type=radio][name=options]:checked" ).val() === 'date') {
+        date = $('#start').val();
     }
 
     return { date, base }
 }
 
 function mostrarCalendario() {
-    const $calendario = document.querySelector('#calendario');
-    $calendario.classList.replace('oculto', 'visible');
+    $('#calendario').removeClass('oculto');
+    $('#calendario').addClass('visible');
 }
 
 function ocultarCalendario() {
-    const $calendario = document.querySelector('#calendario');
-    $calendario.classList.replace('visible', 'oculto');
+    $('#calendario').removeClass('visible');
+    $('#calendario').addClass('oculto');
 }
 
 function mostrarTabla() {
-    const $tablaResultados = document.querySelector('#tabla-resultados');
-    $tablaResultados.classList.replace('oculto', 'visible');
+    $('#tabla-resultados').removeClass('oculto');
+    $('#tabla-resultados').addClass('visible');
 }
 
 function traerExchangeRates(date, base) {
@@ -76,7 +77,7 @@ function cargarOpcionesBase() {
 }
 
 function borrarResultadosAnteriores() {
-    const $resultados = document.querySelectorAll('.base');
+    const $resultados = $( ".base" );
     for (let i = 0; i < $resultados.length; i++) {
         $resultados[i].remove();
     }
@@ -88,9 +89,8 @@ function actualizarCalendario(){
     var mm = String(hoy.getMonth() + 1).padStart(2, '0');
     var yyyy = hoy.getFullYear();
     const fechaCompleta = `${yyyy}-${mm}-${dd}`;
-    let $inputCalendario = document.querySelector('#start');
-    $inputCalendario.value = fechaCompleta; 
-    $inputCalendario.max = fechaCompleta;    
+    $('#start').attr('value', fechaCompleta);
+    $('#start').attr('max', fechaCompleta);
 }
 
 cargarOpcionesBase();
