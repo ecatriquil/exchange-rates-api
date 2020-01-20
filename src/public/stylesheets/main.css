@@ -1,0 +1,57 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: #141E30;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+header{
+    margin-top: 3em;
+}
+
+header,
+#formularie-section{
+    margin-bottom: 3em;
+}
+
+.oculto{
+    display: none;
+}
+
+.visible{
+    display: block;
+}
+
+.centrar{
+    justify-content: center;
+    align-items: center;
+}
+
+#form-container{
+    padding: 1em 1em 0.5em 1em;
+}
+
+#submit{
+    margin-left: 1em;
+}
+
+#tabla-resultados{
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+#tabla-resultados::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#tabla-resultados::-webkit-scrollbar{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#tabla-resultados::-webkit-scrollbar-thumb{
+	background-color: #000000;
+}
