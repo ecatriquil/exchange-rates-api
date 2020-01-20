@@ -20,6 +20,7 @@
     "jquery": "^3.4.1"
   },
   "devDependencies": {
-    "@types/jquery": "^3.3.31"
+    "@types/jquery": "^3.3.31",
+    "cypress": "^3.8.2"
   }
 }
