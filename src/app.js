@@ -1,22 +1,27 @@
 /// <reference types="jquery" />
 
 $('#latest').click((e) => {
-    ocultarCalendario();
+    hideCalendar();
 });
 
 $('#date').click((e) => {
-    mostrarCalendario();
-    actualizarCalendario();
+    showCalendar();
+    updateCalendar();
 });
 
 $('#submit').click((e) => {
     e.preventDefault();
-    const { date, base } = definirBaseDate();
-    borrarResultadosAnteriores();
-    traerExchangeRates(date, base);
+    const { date, base } = setCurrencyAndDate();
+    deletePreviousResultTable();
+    getExchangeRates(date,base)
+    .then(results => {
+        createResultTable(results)
+    })
+    .catch(err => console.error(err));
 });
 
-function definirBaseDate() {
+
+function setCurrencyAndDate() {
     const base = $('#base').val();
     let date;
 
@@ -31,59 +36,70 @@ function definirBaseDate() {
     return { date, base }
 }
 
-function mostrarCalendario() {
+function showCalendar() {
     $('#calendario').removeClass('oculto');
     $('#calendario').addClass('visible');
 }
 
-function ocultarCalendario() {
+function hideCalendar() {
     $('#calendario').removeClass('visible');
     $('#calendario').addClass('oculto');
 }
 
-function mostrarTabla() {
+function showTable() {
     $('#tabla-resultados').removeClass('oculto');
     $('#tabla-resultados').addClass('visible');
 }
 
-function traerExchangeRates(date, base) {
-    fetch(`https://api.exchangeratesapi.io/${date}?base=${base}`)
-        .then(respuesta => respuesta.json())
-        .then(respuesta => {
-            mostrarTabla();
-            $('h2').text(`Exchange rate from ${respuesta.date} in ${respuesta.base}`);
-            Object.keys(respuesta.rates).forEach(moneda => {
-                $('tbody').append(`
-                    <tr class=base>
-                        <td>${moneda}</td>
-                        <td>${respuesta.rates[moneda]}</td>
-                    </tr>
-                `);    
-            });
-        })
-        .catch(error => console.error('FALLO', error));
+function loadCurrenciesOptions(){
+    getBaseCurrencies()
+    .then(results => {
+        setCurrenciesOptions(results)
+    })
+    .catch(err => console.error(err));
 }
 
-function cargarOpcionesBase() {
-    fetch(`https://api.exchangeratesapi.io/latest`)
-        .then(respuesta => respuesta.json())
-        .then(respuesta => {
-            $('select').append($(`<option value=${respuesta.base}>${respuesta.base}</option>`));
-            Object.keys(respuesta.rates).forEach(moneda => {
-                $('select').append($(`<option value="${moneda}">${moneda}</option>`));
-            });
-        })
-        .catch(error => console.error('FALLO', error));
+async function getBaseCurrencies(){
+    const response = await fetch('https://api.exchangeratesapi.io/latest');
+    const json = await response.json();
+    return json;
 }
 
-function borrarResultadosAnteriores() {
+function setCurrenciesOptions(response){
+    $('select').append($(`<option value=${response.base}>${response.base}</option>`));
+        Object.keys(response.rates).forEach(currency => {
+            $('select').append($(`<option value="${currency}">${currency}</option>`));
+    });
+}
+
+async function getExchangeRates(date, base){
+    const response = await fetch(`https://api.exchangeratesapi.io/${date}?base=${base}`) 
+    const json = await response.json();
+    return json;
+}
+
+function createResultTable(response){
+    showTable();
+    $('h2').text(`Exchange rate from ${response.date} in ${response.base}`);
+    Object.keys(response.rates).forEach(moneda => {
+        $('tbody').append(`
+            <tr class=base>
+                <td>${moneda}</td>
+                <td>${response.rates[moneda]}</td>
+            </tr>
+        `);    
+    });
+
+}
+
+function deletePreviousResultTable() {
     const $resultados = $( ".base" );
     for (let i = 0; i < $resultados.length; i++) {
         $resultados[i].remove();
     }
 }
 
-function actualizarCalendario(){
+function updateCalendar(){
     var hoy = new Date();
     var dd = String(hoy.getDate()).padStart(2, '0');
     var mm = String(hoy.getMonth() + 1).padStart(2, '0');
@@ -93,4 +109,4 @@ function actualizarCalendario(){
     $('#start').attr('max', fechaCompleta);
 }
 
-cargarOpcionesBase();
+loadCurrenciesOptions();
