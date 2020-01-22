@@ -8,7 +8,7 @@
     <title>Exchange Rate App</title>
  
     <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-    <link rel="stylesheet" href="public/stylesheets/main.css">
+    <link rel="stylesheet" href="./src/public/stylesheets/main.css">
 </head>
 
 <body>
@@ -49,7 +49,7 @@
                         <input type="date" id="start" name="trip-start" value="" min="1999-01-04"
                             max="">
                     </div>
-                    <button id="submit" class="ui inverted button" type="submit">Submit</button>
+                    <button id="submit" class="ui inverted button" type="submit" data-cy="submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -71,9 +71,9 @@
             </div>
         </div>
     </section>
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-    <script src="app.js"></script>
+    <script src="./src/app.js"></script>
 </body>
 
 </html>
